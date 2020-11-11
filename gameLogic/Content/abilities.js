@@ -7,8 +7,8 @@ const roll=function (max) {
     return Math.floor(Math.random()*(max-min)+min); //The maximum is exclusive and the minimum is inclusive
 }
 const verbs=(caster) => {
-    const you={dodge: 'dodge', attack: 'attack',attempt:'attempt', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
-    const enemy={dodge: 'dodges', attack: 'attacks',attempt:'attempts', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
+    const you={dodge: 'dodge', attack: 'attack', attempt: 'attempt', strike: 'strike', prepare: 'prepare', ready: 'ready', their: 'their', have: 'have', them: 'them', miss: 'miss', hit: 'hit', channel: 'channel', hurl: 'hurl'}
+    const enemy={dodge: 'dodges', attack: 'attacks', attempt: 'attempts', strike: 'strikes', prepare: 'prepares', ready: 'readys', their: 'your', have: 'has', them: 'you', miss: 'misses', hit: 'hits', channel: 'channel', hurl: 'hurls'}
     if(caster.type=='player') {
         return you;
     }
@@ -56,7 +56,7 @@ module.exports={
     }),
     selectMage: new ability({name: 'Mage', desc: 'Select the Mage class.'}, (StoryEvent, caster) => {
         const {jobs}=require('../Content/jobs');
-      
+
         StoryEvent.type='tavern';
         caster.job=jobs.Mage;
         caster.hp=undefined;
@@ -72,7 +72,7 @@ module.exports={
 
     }), selectWereCat: new ability({name: 'Select Test Cat', desc: 'Select the Test Cat class.'}, (StoryEvent, caster) => {
         const {jobs}=require('../Content/jobs');
-    
+
         StoryEvent.type='tavern';
         caster.job=jobs.TestCat;
         caster.hp=undefined;
@@ -369,7 +369,7 @@ module.exports={
     Attack: new ability({name: "Attack", desc: "A basic attack.", type: 'offense'}, (StoryEvent, caster, target) => {
         const cost=5;
         const apCost=5;
-       
+
         StoryEvent.combat=true;
         let name=(caster.type=='player')? 'You':caster.name;
         let {prepare, attempt, hit, miss}=verbs(caster)
@@ -382,37 +382,37 @@ module.exports={
             let {str}=caster.stats;
             let {stam, agi}=target.stats;
             if(StoryEvent.ap>=cost||caster.type!=='player') {
-        
+
                 if(caster.type==='player') {
                     StoryEvent.ap-=cost;
                 }
                 StoryEvent.displayText+=`\n\n${name} ${attempt} to strike ${target.name}!`
                 if(hitRoll===1) {
-                  
+
                     const dmg=(str/2)
                     caster.hp=(caster.hp-dmg);
                     StoryEvent.displayText+=`${name} ${miss} spectacularly, injuring themselves for ${dmg} damage..\n`
                     return StoryEvent
                 }
                 if(hitRoll===20) {
-                    
+
                     const dmg=str*5;
                     target.hp=target.hp-dmg;
                     StoryEvent.displayText+=`${name} lands a critical strike on ${target.name},\n dealing ${dmg} damage..\n`
                     return StoryEvent;
                 }
                 if(hitRoll+str>=(stam+((agi+2)/2))) {
-                   
+
                     const dmg=(str+roll(4));
                     StoryEvent.displayText+=`\n\n${name} ${hit} ${tName} for ${dmg} damage!`;
                     target.hp-=dmg;
                     if(target.hp<=0) {
-                        
+
                         StoryEvent.displayText+=`\n\n${tName} has fallen, lifeless to the ground...`;
                     }
                 }
                 else {
-                   
+
                     const dmg=((agi+2)/2);
                     StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack at lightning speed, striking ${name} for ${dmg} damage!`
                     caster.hp-=dmg;
@@ -449,14 +449,14 @@ module.exports={
                 }
                 StoryEvent.displayText+=`\n\n${name} launches their attack ${target.name}''s way!`
                 if(hitRoll===1) {
-            
+
                     const dmg=((str+4)/4)
                     caster.hp=(caster.hp-dmg);
                     StoryEvent.displayText+=`${name} hits themselves, for ${dmg} damage..\n`
                     return StoryEvent
                 }
                 if(hitRoll===20) {
-                 
+
                     const dmg=(str*2)-2;
                     target.hp=target.hp-dmg;
                     StoryEvent.displayText+=`${name} horrifically stamps ${target.name},\n dealing ${dmg} damage..\n`
@@ -472,7 +472,7 @@ module.exports={
                     }
                 }
                 else {
-               
+
                     const dmg=((agi+2)/2);
                     StoryEvent.displayText+=`\n\n${tName} dodges ${pronoun} attack and strikes back ${name} for ${dmg} damage!`
                     caster.hp-=dmg;
@@ -491,7 +491,7 @@ module.exports={
     HeavyAttack: new ability({name: "Heavy Attack", desc: "An heavy attack with a melee weapon."}, (StoryEvent, caster, target) => {
         const cost=8;
         const apCost=8;
- 
+
         // if(caster.type=='player') {
         //     StoryEvent.ap-=apCost;
         // }
@@ -502,7 +502,7 @@ module.exports={
         StoryEvent.displayText=`\n\n${name} prepares a haymaker.`
         const hitRoll=roll(20);
         if(caster&&target) {
-      
+
             let {str}=caster.stats;
             let {stam, agi}=target.stats;
 
@@ -665,8 +665,8 @@ module.exports={
 
 
 
-//Make sure all content comes before this.
-    
+    //Make sure all content comes before this.
+
 
 }
 
@@ -700,7 +700,7 @@ module.exports={
 
     //     return StoryEvent;
     // }
-    
+
     // if(hitRoll+active.stats.str>=(target.stats.stam+((target.stats.agi+2)/2))) {
     //     let damage=active.stats.str+1;
     //     target.hp=target.hp-damage;
