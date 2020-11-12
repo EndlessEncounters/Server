@@ -10,44 +10,41 @@ module.exports=class ability {
         this.logic=logic;
 
     }
-    do(event=this.StoryEvent, caster=(event.turn=='player')? event.player:event.entities[0] || {}, target=(event.turn=='enemy')? event.player:event.entities[0] || {}, data=this) {
+    do(event=this.StoryEvent, caster=(event.turn=='player')? event.player:event.entities[0]||{}, target=(event.turn=='enemy')? event.player:event.entities[0]||{}, data=this) {
         if(event) {
-           
-            if(this.type == 'offense')
-            {
-                
-                if(!target)
-                {
-                    event.displayText = `\n\nYou can''t...\n`;
+
+            if(this.type=='offense') {
+
+                if(!target) {
+                    event.displayText=`\n\nYou can''t...\n`;
                     return event;
                 }
-                event.combat = true;
+                event.combat=true;
             }
             if(caster.type=='player') {
-                if(this.cost <= event.ap)
-                {
+                if(this.cost<=event.ap) {
                     event.ap-=this.cost;
                 }
                 else {
                     event.displayText=`\n\n${caster.name} Not enough ap!\n`;
                     //event.turn='enemy';
                     return event;
-    
+
                 }
-                
+
             }
-            
-            
+
+
             const result=this.logic(event, caster, target, data);
             if(result.dataType==='StoryEvent') {
-                
+
                 return result;
             }
             else {
                 throw new Error('Ability must return storyevent')
             }
-            
-            
+
+
 
         }
         else {

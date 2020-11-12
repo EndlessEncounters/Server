@@ -4,7 +4,7 @@ const storyEvent=require('../storyEvent/storyEvent');
 module.exports=class place {
     constructor(StoryEvent) {
         const abilities=require('./abilities');
-        
+
         this.choices={
             explore: [
                 abilities.cave,
@@ -18,28 +18,27 @@ module.exports=class place {
                 abilities.deep_cave
             ]
         }
-        this.specialAbilities = {
-            Start:abilities.name_screen,
-            'Rest at tavern':abilities.tavern,
-            leave:abilities.leave_cave,
-            inspect:this.randomChoice('explore'),
-            Continue: abilities.tavern, 
+        this.specialAbilities={
+            Start: abilities.name_screen,
+            'Rest at tavern': abilities.tavern,
+            leave: abilities.leave_cave,
+            inspect: this.randomChoice('explore'),
+            Continue: abilities.tavern,
             'Start again': abilities.name_screen,
-            Leave:abilities.leaveTavern
+            Leave: abilities.leaveTavern
         }
-        
-        
-        
-        if(StoryEvent)
-        {
+
+
+
+        if(StoryEvent) {
             this.player=StoryEvent.player||{name: undefined, desc: undefined};
-        
+
             this.descData={
                 start_screen: {
                     names: [''],
                     text: [`Endless Encounters\n`],
                     afterText: [`\nNothin but mews...\n\n`, `\nOh yeah~\n\n`, `\nWe have dragons.\n\n`, `\nPlease just start.\n\n`, `\nWe''ve been waiting for you...\n\n`],
-                    choices: {Start:abilities.name_screen}
+                    choices: {Start: abilities.name_screen}
                 },
                 class_screen: {
                     names: [''],
@@ -63,7 +62,7 @@ module.exports=class place {
                     names: [`Mewington`, `Castle MeowMuffin`, `Flufftopia`, `Potatia`, `Portlandia`, `Diyu`, `Atlantis`],
                     text: [`You arrive in the town of`, `Welcome to the town of`, `You have entered`, `You skippity doo da into`],
                     afterText: [""],
-                    choices: {explore:abilities.explore, 'Rest at tavern':abilities.tavern}
+                    choices: {explore: abilities.explore, 'Rest at tavern': abilities.tavern}
                 },
                 explore: {
                     names: [`swamp`, `magical forest`, `field of gold`],
@@ -74,7 +73,7 @@ module.exports=class place {
                         `after a long journey to get there.\nYou see a structure in the distance..`
                     ],
 
-                    choices: {explore:abilities.explore, inspect:this.randomChoice('explore')}
+                    choices: {explore: abilities.explore, inspect: this.randomChoice('explore')}
                 },
                 cave: {
                     names: [`dark cave`, `glowing mushroom cave`, `cave`, `cave of swallows`],
@@ -92,7 +91,7 @@ module.exports=class place {
                     names: [`castle ruin`, `abandoned wizard tower`, `mystic pillars`, `crystal castle`],
                     text: [`You observe the`, `You happen upon a`, `You casually walk into the`],
                     afterText: [`\nYou look around, amazed at it''s construction`, `\nIt is very quiet..\nToo quiet...`, `\nYou cannot begin to understand the skill it took to create it.`],
-                    choices: {explore:abilities.explore}
+                    choices: {explore: abilities.explore}
                 },
                 afterlife: {
                     names: [`a black void.`, `a hellish nightmare.`, `purgatory`, `Valhalla`],
@@ -104,7 +103,7 @@ module.exports=class place {
                     names: [`the tavern.`, `Broken Spoon Tavern.`, `Meowing Mug.`, `Penuches.`,],
                     text: [`You awake at`],
                     afterText: [`\n\nYou feel refreshed.`, `You feel a little hungover, but nothing a little advil can''t cure`],
-                    choices: {Leave:abilities.leaveTavern}
+                    choices: {Leave: abilities.leaveTavern}
                 }
             }
         }
@@ -114,13 +113,13 @@ module.exports=class place {
     }
     selectRandomData(type, key) {
         const data=this.descData[type][key]
-      
+
         const index=Math.round(Math.random()*(data.length-1))
         return data[index];
     }
     randomChoice(type) {
         const data=this.choices[type]
-  
+
         const index=Math.round(Math.random()*(data.length-1))
         return data[index];
     }
